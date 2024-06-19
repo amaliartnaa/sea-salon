@@ -1,30 +1,36 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-import bcrypt from 'bcryptjs'
-import moment from "moment"
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import bcrypt from 'bcryptjs';
+import moment from 'moment';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export const hashPassword = async (password: string) => {
+export const hashPassword = async (password: string): Promise<string> => {
   const hashedPassword = await bcrypt.hash(password, 8);
-
   return hashedPassword;
-}
+};
 
-export const comparePassword = async (password: string, hashedPassword: string) => {
-  const isMatch = await bcrypt.compare(password, hashedPassword)
-
+export const comparePassword = async (
+  password: string,
+  hashedPassword: string,
+): Promise<boolean> => {
+  const isMatch = await bcrypt.compare(password, hashedPassword);
   return isMatch;
+};
+
+export async function fetcher<T>(
+  input: RequestInfo,
+  init?: RequestInit,
+): Promise<T> {
+  const res = await fetch(input, init);
+  return res.json() as Promise<T>;
 }
 
-export async function fetcher<JSON = any>(input: RequestInfo, init?: RequestInit): Promise<JSON> {
-  const res = await fetch(input, init)
-
-  return res.json() as Promise<JSON>
-}
-
-export const dateformat = (date: any, format: string = 'DD MMMM YYYY') => {
-  return moment(date).format(format)
-}
+export const dateformat = (
+  date: Date | string,
+  format: string = 'DD MMMM YYYY',
+) => {
+  return moment(date).format(format);
+};

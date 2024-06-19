@@ -1,25 +1,28 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react'
-import { Button } from '../ui/button'
-import Link from 'next/link'
+import React, { useState } from 'react';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 const links = [
   { href: '#home', text: 'Home' },
   { href: '#about', text: 'About Us' },
   { href: '#services', text: 'Services' },
-  { href: '#contact', text: 'Contact' }
-]
+  { href: '#contact', text: 'Contact' },
+];
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  
-  const handleLinkClick = (e: React.MouseEvent<HTMLButtonElement>, href: string) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    href: string,
+  ) => {
     e.preventDefault();
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
   };
-  
+
   return (
     <nav className='bg-[#987070] text-white py-4 fixed top-0 left-0 right-0 z-10'>
       <div className='mx-auto px-4 sm:px-6 lg:px-14'>
@@ -54,15 +57,17 @@ export default function Navbar() {
               </svg>
             </Button>
             <Link href='/'>
-              <h3 className='text-white font-semibold text-2xl'>
-                SEA Salon
-              </h3>
+              <h3 className='text-white font-semibold text-2xl'>SEA Salon</h3>
             </Link>
           </div>
           <div className='hidden lg:flex space-x-6 items-center'>
             {links.map((link, index) => (
               <div key={index} className='relative'>
-                <Button variant='link' asChild onClick={(e) => handleLinkClick(e, link.href)}>
+                <Button
+                  variant='link'
+                  asChild
+                  onClick={(e) => handleLinkClick(e, link.href)}
+                >
                   <Link href={link.href} className='text-white'>
                     {link.text}
                   </Link>
@@ -101,5 +106,5 @@ export default function Navbar() {
         )}
       </div>
     </nav>
-  )
+  );
 }

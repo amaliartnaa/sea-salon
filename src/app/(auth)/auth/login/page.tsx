@@ -1,73 +1,76 @@
-"use client"
+'use client';
 
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { loginFormSchema } from '@/lib/form-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import {signIn} from 'next-auth/react'
+import { signIn } from 'next-auth/react';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 
-interface LoginPageProps{}
+interface LoginPageProps {}
 
-const LoginPage: FC<LoginPageProps> = ({ }) => {
+const LoginPage: FC<LoginPageProps> = ({}) => {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
-  })
+  });
 
-  const {toast} = useToast();
+  const { toast } = useToast();
 
-  const router = useRouter()
+  const router = useRouter();
 
   const onSubmit = async (val: z.infer<typeof loginFormSchema>) => {
     const authenticated = await signIn('credentials', {
       ...val,
-      redirect: false
-    })
+      redirect: false,
+    });
 
     if (authenticated?.error) {
       toast({
         title: 'Error',
-        description: 'Email or Password maybe wrong'
-      })
+        description: 'Email or Password maybe wrong',
+      });
 
       return;
     }
 
-    await router.push('/')
-  }
+    await router.push('/');
+  };
 
   return (
-    <div className="relative w-full h-screen">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div className="border border-border p-5">
-          <div className="font-semibold text-center text-2xl mb-2">
+    <div className='relative w-full h-screen'>
+      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+        <div className='border border-border p-5'>
+          <div className='font-semibold text-center text-2xl mb-2'>
             Login your account
           </div>
-          <div className="text-sm text-gray-500">
+          <div className='text-sm text-gray-500'>
             Enter your email to access dashboard
           </div>
 
           <Form {...form}>
-            <form 
-              onSubmit={form.handleSubmit(onSubmit)} 
-              className="mt-5 space-y-5"
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className='mt-5 space-y-5'
             >
               <FormField
                 control={form.control}
-                name="email"
+                name='email'
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input
-                        placeholder="Enter your email..." 
-                        {...field} 
-                      />
+                      <Input placeholder='Enter your email...' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -75,14 +78,14 @@ const LoginPage: FC<LoginPageProps> = ({ }) => {
               />
               <FormField
                 control={form.control}
-                name="password"
+                name='password'
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
-                        type="password"
-                        placeholder="Enter your password..." 
-                        {...field} 
+                        type='password'
+                        placeholder='Enter your password...'
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -90,11 +93,13 @@ const LoginPage: FC<LoginPageProps> = ({ }) => {
                 )}
               />
 
-              <Button className="w-full text-black hover:bg-[#F1E5D1] bg-stone-400">Sign In</Button>
+              <Button className='w-full text-black hover:bg-[#F1E5D1] bg-stone-400'>
+                Sign In
+              </Button>
 
-              <div className="text-sm">
-                Dont have an account? {" "}
-                <Link href="/auth/register" className="text-primary">
+              <div className='text-sm'>
+                Dont have an account?{' '}
+                <Link href='/auth/register' className='text-primary'>
                   Register
                 </Link>
               </div>
@@ -103,7 +108,7 @@ const LoginPage: FC<LoginPageProps> = ({ }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default LoginPage;

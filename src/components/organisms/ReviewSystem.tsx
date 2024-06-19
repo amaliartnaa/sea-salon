@@ -1,26 +1,33 @@
-'use client'
+'use client';
 
-import { supabaseClient } from '@/lib/supabaseClient'
-import React, { useEffect, useState } from 'react'
-import { useForm, Controller, FormProvider } from 'react-hook-form'
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
-import { Input } from '../ui/input'
+import { supabaseClient } from '@/lib/supabaseClient';
+import React, { useEffect, useState } from 'react';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../ui/form';
+import { Input } from '../ui/input';
 
 interface Review {
-  id: number
-  name: string
-  rating: number
-  comment: string
+  id: number;
+  name: string;
+  rating: number;
+  comment: string;
 }
 
 interface FormData {
-  name: string
-  rating: number
-  comment: string
+  name: string;
+  rating: number;
+  comment: string;
 }
 
 export default function ReviewSystem() {
-  const [reviews, setReviews] = useState<Review[]>([])
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   const methods = useForm<FormData>({
     defaultValues: {
@@ -28,24 +35,26 @@ export default function ReviewSystem() {
       rating: 1,
       comment: '',
     },
-  })
+  });
 
-  const { control, handleSubmit, reset } = methods
+  const { control, handleSubmit, reset } = methods;
 
   useEffect(() => {
     const fetchReviews = async () => {
-      const { data } = await supabaseClient.from('Review').select('*')
-      setReviews(data || [])
-    }
+      const { data } = await supabaseClient.from('Review').select('*');
+      setReviews(data || []);
+    };
 
-    fetchReviews()
-  }, [])
+    fetchReviews();
+  }, []);
 
   const onSubmit = async (data: FormData) => {
-    const { data: insertedData } = await supabaseClient.from('Review').insert([data])
-    setReviews(insertedData || [])
-    reset()
-  }
+    const { data: insertedData } = await supabaseClient
+      .from('Review')
+      .insert([data]);
+    setReviews(insertedData || []);
+    reset();
+  };
 
   return (
     <div className='mt-8'>
@@ -53,7 +62,7 @@ export default function ReviewSystem() {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
           <FormField
-            name="name"
+            name='name'
             control={control}
             render={({ field }) => (
               <FormItem>
@@ -72,7 +81,7 @@ export default function ReviewSystem() {
             )}
           />
           <FormField
-            name="rating"
+            name='rating'
             control={control}
             render={({ field }) => (
               <FormItem>
@@ -91,7 +100,7 @@ export default function ReviewSystem() {
             )}
           />
           <FormField
-            name="comment"
+            name='comment'
             control={control}
             render={({ field }) => (
               <FormItem>
@@ -113,5 +122,5 @@ export default function ReviewSystem() {
         </form>
       </FormProvider>
     </div>
-  )
+  );
 }

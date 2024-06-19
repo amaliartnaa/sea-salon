@@ -1,7 +1,7 @@
-import NextAuth, { NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import prisma from '../../../../../lib/prisma'
-import { comparePassword } from '@/lib/utils'
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import prisma from '../../../../../lib/prisma';
+import { comparePassword } from '@/lib/utils';
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -11,54 +11,68 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: {
           label: 'email',
-          type: 'email'
+          type: 'email',
         },
         password: {
           label: 'password',
-          type: 'password'
-        }
+          type: 'password',
+        },
       },
-      async authorize(credentials: { email: string, password: string } | undefined, req) {
+      async authorize(
+        credentials: { email: string; password: string } | undefined,
+        req,
+      ) {
         const user = await prisma.user.findFirst({
           where: {
-            email: credentials?.email
-          }
-        })
+            email: credentials?.email,
+          },
+        });
 
         if (!user) {
-          return null
+          return null;
         }
 
-        const isMatch = await comparePassword(credentials?.password!!, user.password)
+        const isMatch = await comparePassword(
+          credentials?.password!!,
+          user.password,
+        );
 
         if (isMatch) {
-          return user
+          return user;
         }
 
-        return null
-      }
-    })
+        return null;
+      },
+    }),
   ],
   pages: {
     signIn: '/auth/signIn',
-    newUser: '/auth/signUp'
+    newUser: '/auth/signUp',
   },
   callbacks: {
-    jwt({token, account, user}) {
+    jwt({ token, account, user }) {
       if (account) {
-        token.id = user.id
+        token.id = user.id;
       }
 
       return token;
     },
-    async session({session, token, user}: {session: any, token: any, user: any}) {
-      (session.user.id as string) = token.id as string
-    
-      return session
-    }
-  }
-}
+    async session({
+      session,
+      token,
+      user,
+    }: {
+      session: any;
+      token: any;
+      user: any;
+    }) {
+      (session.user.id as string) = token.id as string;
 
-const handler = NextAuth(authOptions)
+      return session;
+    },
+  },
+};
 
-export {handler as GET, handler as POST}
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
