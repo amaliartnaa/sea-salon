@@ -4,9 +4,9 @@ import { Separator } from '../ui/separator';
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-10">
-      <div className="mx-auto justify-center items-center px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 ">
+    <footer id='contact' className="bg-gray-800 text-white py-10">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Contact Details */}
           <div className="col-span-1 md:col-span-1 lg:col-span-1 mb-8">
             <h3 className="text-xl font-bold mb-4">Contact Us</h3>

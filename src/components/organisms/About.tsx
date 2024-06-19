@@ -1,12 +1,23 @@
+'use client'
+
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 export default function About() {
+  useEffect(() => {
+		AOS.init({
+			duration: 1000,
+			once: true
+		})
+	}, [])
+
   return (
-    <div className="bg-[#DBB5B5] py-16">
+    <section id='about' className="bg-[#DBB5B5] py-16">
       <div className="max-w-5xl mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between">
-          <div className="md:w-1/2 md:pr-10 mb-6 md:mb-0 relative">
+          <div className="md:w-1/2 md:pr-10 mb-6 md:mb-0 relative" data-aos='fade-right'>
             <h2 className="text-4xl font-bold text-stone-700 mb-4">Our Story</h2>
             <p className="text-lg text-stone-700 leading-relaxed">
               Founded in 2005 by Sisca, SEA Salon began as a small family-owned business
@@ -21,9 +32,9 @@ export default function About() {
               provide exceptional salon experiences.
             </p>
           </div>
-          <div className="md:w-1/2 md:pl-10 flex justify-center">
+          <div className="md:w-1/2 md:pl-10 flex justify-center" data-aos='fade-left'>
             <Image
-                src="/images/salon.jpg"
+                src="/images/about/salon.jpg"
                 alt="salon"
                 width={500}
                 height={600}
@@ -32,6 +43,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
