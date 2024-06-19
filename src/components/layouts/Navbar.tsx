@@ -89,12 +89,12 @@ export default function Navbar() {
             ))}
             <div className='w-full flex justify-center'>
               <Button className='w-11/12 text-white bg-rose-300 hover:bg-rose-400 px-4 py-2 rounded-md'>
-                <Link href='/login'>Login</Link>
+                <Link href='/auth/login'>Login</Link>
               </Button>
             </div>
             <div className='w-full flex justify-center'>
               <Button className='w-11/12 text-black bg-[#F1E5D1] hover:bg-stone-400 px-4 py-2 rounded-md'>
-                <Link href='/register'>Register</Link>
+                <Link href='/auth/register'>Register</Link>
               </Button>
             </div>
           </div>
